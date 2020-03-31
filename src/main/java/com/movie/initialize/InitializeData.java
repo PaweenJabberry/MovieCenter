@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.model.MovieData;
 import com.movie.repositories.MovieRepository;
+import com.movie.service.MovieSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +19,10 @@ import java.util.List;
 public class InitializeData implements CommandLineRunner {
 
     private final MovieRepository movieRepository;
+
+    @Autowired
+    @Qualifier("invertedIndexMovieSearchService")
+    private MovieSearchService movieSearchService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -35,6 +41,7 @@ public class InitializeData implements CommandLineRunner {
             movieRepository.saveAll(movieDataList);
             System.out.println("Initialize Data");
             System.out.println("Data Count : "+movieRepository.count());
+            movieSearchService.createAlgorithm();
         } catch (IOException e) {
             e.printStackTrace();
         }
