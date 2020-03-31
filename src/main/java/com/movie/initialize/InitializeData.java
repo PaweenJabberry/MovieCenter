@@ -35,7 +35,9 @@ public class InitializeData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        System.out.println("Run");
         try {
+            System.out.println("Try");
             List<MovieData> movieDataList = new ArrayList<>();
             movieDataList = objectMapper.readValue(new URL(MOVIE_DATA_URL), new TypeReference<List<MovieData>>(){});
             movieRepository.saveAll(movieDataList);
@@ -43,6 +45,7 @@ public class InitializeData implements CommandLineRunner {
             System.out.println("Data Count : "+movieRepository.count());
             movieSearchService.createAlgorithm();
         } catch (IOException e) {
+            System.out.println("Catch");
             e.printStackTrace();
         }
     }

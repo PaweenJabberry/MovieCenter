@@ -15,12 +15,38 @@ public class algorithmMovieSearchService implements MovieSearchService {
 
     private Map<String, List<Long>> index = new HashMap<String, List<Long>>();
 
+    private ArrayList<Integer> allId = new ArrayList<>();
+
     public algorithmMovieSearchService(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
     }
 
     @Override
     public void createAlgorithm() {
+        createInvertedIndex();
+    }
+
+    @Override
+    public List<MovieData> searchByTitle(String keyword) {
+
+        List<MovieData> movieDataList = invertedIndexSearch(keyword);
+
+        return movieDataList;
+    }
+
+//    @Override
+//    public long searchById(long id) {
+//        return 0;
+//    }
+//
+//    public void createBinarySearch() {
+//    }
+//
+//    public long binarySearch() {
+//        return 0;
+//    }
+
+    public void createInvertedIndex() {
         System.out.println("Create InvertedIndexSearch");
 
         //	Create Inverted Index
@@ -42,34 +68,7 @@ public class algorithmMovieSearchService implements MovieSearchService {
         }
     }
 
-
-    public void invertedIndex() {
-//        System.out.println("Create InvertedIndexSearch");
-//
-//        //	Create Inverted Index
-//        Iterable<MovieData> movies = movieRepository.findAll();
-//        //	Split the word from title name to dictionary
-//        for (MovieData movie: movies) {
-//            String name = movie.getTitle();
-//            for (String wordSplit : name.split(" ")) {
-//                String word = wordSplit.toLowerCase();
-//                List<Long> idx = index.get(word);
-//                if (idx == null) {
-//                    idx = new LinkedList<>();
-//                    index.put(word,idx);
-//                }
-//                if (idx.contains(movie.getId()) == false) {
-//                    idx.add(movie.getId());
-//                }
-//            }
-//        }
-
-
-    }
-
-    @Override
-    public List<MovieData> search(String keyword) {
-
+    public List<MovieData> invertedIndexSearch(String keyword) {
         List<MovieData> movieDataList = new ArrayList<>();
 
         try {
@@ -119,4 +118,5 @@ public class algorithmMovieSearchService implements MovieSearchService {
 
         return movieDataList;
     }
+
 }
